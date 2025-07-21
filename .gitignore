@@ -1,0 +1,32 @@
+# Python virtual environments
+venv/
+ENV/
+env/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables and secrets
+.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs and output
+*.log
+*.out
+*.DS_Store
+
+# Streamlit and other cache
+.streamlit/
+*.sqlite3
+*.db
+
+# VS Code settings
+.vscode/
+
+# Mac/Windows system files
+Thumbs.db
+.DS_Store
