@@ -1,13 +1,32 @@
 # Build Streamlit dashboard
 
-# dashboard.py
+# run venv/Scripts/activate   
+# run streamlit run src/dashboard.py
+# run deactivate to stop venv
+
+
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+from supabase import create_client
+from pathlib import Path
+import os
+from dotenv import load_dotenv
 
-st.title("NBA Player Stats Dashboard")
+# Load from parent of current script (project root)
+dotenv_path = Path(__file__).resolve().parents[1] / ".env"
+load_dotenv(dotenv_path)
 
-df = pd.read_csv("data/nba_stats.csv")
-player = st.selectbox("Choose player", df['Player'].unique())
-chart = px.line(df[df['Player'] == player], x='Game', y='Points', title=f'{player} - Points Over Time')
-st.plotly_chart(chart)
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+
+st.set_page_config(page_title="NBA Stats Dashboard")
+
+data = supabase.table("nba_player_stats_ex").select("*").execute().data
+df = pd.DataFrame(data)
+
+
+player = st.selectbox("Select player", df["name"].unique())
+st.write(df[df["name"] == player])
+
